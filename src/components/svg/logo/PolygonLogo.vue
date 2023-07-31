@@ -41,7 +41,7 @@
     <defs>
       <linearGradient id="paint0_linear_4864_1917" x1="11.6463" y1="101.841" x2="129.167" y2="15.9136"
                       gradientUnits="userSpaceOnUse">
-        <stop stop-color="#A726C1"/>
+        <stop offset="1" stop-color="#A726C1"/>
         <stop offset="0.88" stop-color="#803BDF"/>
         <stop offset="1" stop-color="#7B3FE4"/>
       </linearGradient>
