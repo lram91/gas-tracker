@@ -1,4 +1,4 @@
-# BitDegeree Task - Gas Tracker
+# BitDegree Task - Gas Tracker
 
 ## Overview
 Gas Tracker is a web application built using Vue.js and ApexCharts.js that allows users to monitor gas prices on the Ethereum network. The application displays real-time gas metrics, such as low, average, and high gas prices, base price, priority price, and the total cost in USD. Additionally, the app provides historical data for low, average, and high gas prices over different timeframes, represented by an interactive line chart.
