@@ -1,6 +1,6 @@
 <script setup>
 import { watch, onMounted, ref } from "vue";
-import LadderGuy from "./svg/LadderGuy.vue";
+import LadderGuy from "@/components/svg/LadderGuy.vue";
 
 const props = defineProps({
   title: String,

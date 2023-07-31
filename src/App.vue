@@ -1,14 +1,14 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
-import handleFetchError from './helpers/errorHandler';
-import chartOptionsConfig from './configs/chart.js';
-import GasPriceCard from "./components/GasPriceCard.vue";
-import ChartComponent from "./components/ChartComponent.vue";
-import TabsComponent from "./components/TabsComponent.vue";
-import TimeFrameSwitcher from "./components/TimeFrameSwitcher.vue";
-import BscLogo from "./components/svg/logo/BscLogo.vue";
-import EthLogo from "./components/svg/logo/EthLogo.vue";
-import PolygonLogo from "./components/svg/logo/PolygonLogo.vue";
+import handleFetchError from '@/helpers/errorHandler';
+import chartOptionsConfig from '@/configs/chart.js';
+import GasPriceCard from "@/components/GasPriceCard.vue";
+import ChartComponent from "@/components/ChartComponent.vue";
+import TabsComponent from "@/components/TabsComponent.vue";
+import TimeFrameSwitcher from "@/components/TimeFrameSwitcher.vue";
+import BscLogo from "@/components/svg/logo/BscLogo.vue";
+import EthLogo from "@/components/svg/logo/EthLogo.vue";
+import PolygonLogo from "@/components/svg/logo/PolygonLogo.vue";
 
 const tabsData = ref({
   tabs: [
