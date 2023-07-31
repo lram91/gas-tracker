@@ -1,0 +1,12 @@
+@import 'variables';
+@import 'typography';
+@import 'mixins/sizing';
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+section {
+  margin-bottom: $section-margin-bottom;
+}
+
+.main-bg {
+  background: linear-gradient($primary 0%, $secondary 100%);
+}

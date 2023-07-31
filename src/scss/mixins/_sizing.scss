@@ -1,0 +1,14 @@
+@use 'sass:math';
+
+// Sizing rem
+$i: 0.1;
+@while $i < 3 {
+  $width: ($i);
+  .width-#{round($i*10)} {
+    width: $width + rem;
+  }
+  .height-#{round($i*10)} {
+    height: $width + rem;
+  }
+  $i: $i + 0.1;
+}
