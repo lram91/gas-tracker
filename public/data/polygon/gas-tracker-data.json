@@ -1,0 +1,11 @@
+{
+  "lowPrice": "25",
+  "avgPrice": "30",
+  "highPrice": "35",
+  "lowGasPriceUsd": "$0.25",
+  "avgGasPriceUsd": "$0.45",
+  "highGasPriceUsd": "$0.49",
+  "lowBasePriority": "Base: 10 | Priority: 1",
+  "proposeBasePriority": "Base: 11 | Priority: 1",
+  "highBasePriority": "Base: 12 | Priority: 1"
+}
