@@ -10,6 +10,19 @@ const props = defineProps({
   totalCost: String,
 });
 
+const getColorCodeForSvg = (color) => {
+  switch (color) {
+    case 'text-success':
+      return '#198754';
+    case 'text-warning':
+      return '#ffc107';
+    case 'text-danger':
+      return '#dc3545';
+    default:
+      return '#198754';
+  }
+};
+
 const show = ref(false);
 
 const showValue = () => {
@@ -43,9 +56,7 @@ onMounted(() => {
       </p>
     </Transition>
     <div class="mx-auto">
-      <LadderGuy v-if="color === 'text-success'" color="#198754" width="150"/>
-      <LadderGuy v-if="color === 'text-warning'" color="#ffc107" width="150"/>
-      <LadderGuy v-if="color === 'text-danger'" color="#dc3545" width="150"/>
+      <LadderGuy :color="getColorCodeForSvg(color)" width="150" />
     </div>
     <div>
       <small class="text-dark">

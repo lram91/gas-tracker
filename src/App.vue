@@ -10,7 +10,7 @@ import BscLogo from "@/components/svg/logo/BscLogo.vue";
 import EthLogo from "@/components/svg/logo/EthLogo.vue";
 import PolygonLogo from "@/components/svg/logo/PolygonLogo.vue";
 
-const getColor = (type) => {
+const getColorByType = (type) => {
   switch (type) {
     case 'low':
       return 'text-success';
@@ -203,7 +203,7 @@ onMounted(() => {
                 :base-priority-price="gasTrackerData[`${type}BasePriority`]"
                 :total-cost="gasTrackerData[`${type}GasPriceUsd`]"
                 :title="type"
-                :color="getColor(type)"
+                :color="getColorByType(type)"
             />
           </div>
         </div>
