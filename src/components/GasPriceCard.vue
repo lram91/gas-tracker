@@ -1,5 +1,5 @@
 <script setup>
-import { watch, onMounted, ref } from "vue";
+import { watch, computed, onMounted, ref } from "vue";
 import LadderGuy from "@/components/svg/LadderGuy.vue";
 
 const props = defineProps({
@@ -22,6 +22,8 @@ const getColorCodeForSvg = (color) => {
       return '#198754';
   }
 };
+
+const colorCode = computed(() => getColorCodeForSvg(props.color));
 
 const show = ref(false);
 
@@ -56,7 +58,7 @@ onMounted(() => {
       </p>
     </Transition>
     <div class="mx-auto">
-      <LadderGuy :color="getColorCodeForSvg(color)" width="150" />
+      <LadderGuy :color="colorCode" width="150"/>
     </div>
     <div>
       <small class="text-dark">

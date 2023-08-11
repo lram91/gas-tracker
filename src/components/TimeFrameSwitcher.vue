@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
 
 const {timeFrames} = defineProps({timeFrames: Array});
 const emit = defineEmits();

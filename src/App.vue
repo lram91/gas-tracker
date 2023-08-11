@@ -1,6 +1,6 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
-import handleFetchError from '@/helpers/errorHandler';
+import { computed, onMounted, ref, watch } from "vue";
+import { useFetchData } from '@/repositories/baseRepository';
 import chartOptionsConfig from '@/configs/chart.js';
 import GasPriceCard from "@/components/GasPriceCard.vue";
 import ChartComponent from "@/components/ChartComponent.vue";
@@ -42,15 +42,10 @@ const tabsData = ref({
 
 const selectedNetwork = ref(tabsData.value.tabs[0]);
 
-const loadDataByNetwork = (network) => {
-  selectedNetwork.value = network;
-  loadGasTrackerData();
-  loadGasHistoricalData(timeFrameData.value.timeFrame);
+const loadDataByNetwork = (networkData) => {
+  selectedNetwork.value = networkData;
+  loadData(networkData.network, timeFrameData.value.timeFrame);
 };
-
-const chartData = ref({
-  options: chartOptionsConfig,
-});
 
 const updateChartData = () => {
   chartData.value.options = {
@@ -95,38 +90,33 @@ const timeFrameData = ref({
 
 const changeTimeFrame = (timeFrame) => {
   timeFrameData.value.timeFrame = timeFrame;
-  loadGasHistoricalData(timeFrame);
+  loadData(selectedNetwork.value.network, timeFrame);
 };
 
-const gasHistoricalData = ref(null);
-
-const loadGasHistoricalData = async (timeFrame) => {
-  const network = selectedNetwork.value.network;
-  const apiUrl = `/data/${network}/gas-historical-data-${timeFrame}.json`;
-
-  try {
-    const response = await fetch(apiUrl);
-
-    gasHistoricalData.value = await handleFetchError(response);
-    await updateChartData();
-  } catch (error) {
-    console.error('Error fetching JSON data:', error);
-  }
-};
+const {fetchData} = useFetchData();
 
 const gasTrackerData = ref(null);
+const gasHistoricalData = ref(null);
+const chartData = ref({
+  options: chartOptionsConfig,
+});
 
-const loadGasTrackerData = async () => {
-  const network = selectedNetwork.value.network;
+const loadData = async (network, timeFrame) => {
+  await loadGasTrackerData(network);
+  await loadGasHistoricalData(network, timeFrame);
+};
+
+const loadGasTrackerData = async (network) => {
   const apiUrl = `/data/${network}/gas-tracker-data.json`;
 
-  try {
-    const response = await fetch(apiUrl);
+  gasTrackerData.value = await fetchData(apiUrl);
+};
 
-    gasTrackerData.value = await handleFetchError(response);
-  } catch (error) {
-    console.error('Error fetching JSON data:', error);
-  }
+const loadGasHistoricalData = async (network, timeFrame) => {
+  const apiUrl = `/data/${network}/gas-historical-data-${timeFrame}.json`;
+
+  gasHistoricalData.value = await fetchData(apiUrl);
+  await updateChartData();
 };
 
 const show = ref(true);
@@ -162,8 +152,7 @@ watch(() => selectedNetwork.value.title, () => {
 });
 
 onMounted(() => {
-  loadGasTrackerData();
-  loadGasHistoricalData(timeFrameData.value.timeFrame);
+  loadData(selectedNetwork.value.network, timeFrameData.value.timeFrame);
 });
 </script>
 
