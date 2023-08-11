@@ -6,6 +6,6 @@
   "avgGasPriceUsd": "$0.65",
   "highGasPriceUsd": "$0.65",
   "lowBasePriority": "Base: 16 | Priority: 1",
-  "proposeBasePriority": "Base: 16 | Priority: 1",
+  "avgBasePriority": "Base: 16 | Priority: 1",
   "highBasePriority": "Base: 16 | Priority: 1"
 }

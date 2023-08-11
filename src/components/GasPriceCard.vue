@@ -34,7 +34,7 @@ onMounted(() => {
 
 <template>
   <div class="card bg-light p-2 mb-3 mx-auto">
-    <h4 class="fw-bold text-center text-dark">
+    <h4 class="text-capitalize fw-bold text-center text-dark">
       {{ title }}
     </h4>
     <Transition name="bounce">
@@ -60,7 +60,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .card {
-  max-width: 15rem;
+  max-width: 14rem;
 }
 
 .bounce-enter-active {

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import handleFetchError from '@/helpers/errorHandler';
 import chartOptionsConfig from '@/configs/chart.js';
 import GasPriceCard from "@/components/GasPriceCard.vue";
@@ -9,6 +9,19 @@ import TimeFrameSwitcher from "@/components/TimeFrameSwitcher.vue";
 import BscLogo from "@/components/svg/logo/BscLogo.vue";
 import EthLogo from "@/components/svg/logo/EthLogo.vue";
 import PolygonLogo from "@/components/svg/logo/PolygonLogo.vue";
+
+const getColor = (type) => {
+  switch (type) {
+    case 'low':
+      return 'text-success';
+    case 'avg':
+      return 'text-warning';
+    case 'high':
+      return 'text-danger';
+    default:
+      return 'text-success';
+  }
+};
 
 const tabsData = ref({
   tabs: [
@@ -128,6 +141,21 @@ const hideValue = () => {
   show.value = false;
 };
 
+const networkLogoComponent = computed(() => {
+  const network = selectedNetwork.value.network;
+
+  switch (network) {
+    case 'eth':
+      return EthLogo;
+    case 'bsc':
+      return BscLogo;
+    case 'polygon':
+      return PolygonLogo;
+    default:
+      return null;
+  }
+});
+
 watch(() => selectedNetwork.value.title, () => {
   hideValue();
   showValue();
@@ -167,36 +195,16 @@ onMounted(() => {
       <div class="row">
         <div class="col-xl-8 mx-auto">
           <div class="row">
-            <div class="col-md-4">
-              <GasPriceCard
-                  v-if="gasTrackerData"
-                  :gas-title-number=gasTrackerData.lowPrice
-                  :base-priority-price=gasTrackerData.lowBasePriority
-                  :total-cost=gasTrackerData.lowGasPriceUsd
-                  title="Low"
-                  color="text-success"
-              />
-            </div>
-            <div class="col-md-4">
-              <GasPriceCard
-                  v-if="gasTrackerData"
-                  :gas-title-number=gasTrackerData.avgPrice
-                  :base-priority-price=gasTrackerData.proposeBasePriority
-                  :total-cost=gasTrackerData.avgGasPriceUsd
-                  title="Average"
-                  color="text-warning"
-              />
-            </div>
-            <div class="col-md-4">
-              <GasPriceCard
-                  v-if="gasTrackerData"
-                  :gas-title-number=gasTrackerData.highPrice
-                  :base-priority-price=gasTrackerData.highBasePriority
-                  :total-cost=gasTrackerData.highGasPriceUsd
-                  title="High"
-                  color="text-danger"
-              />
-            </div>
+            <GasPriceCard
+                v-for="type in ['low', 'avg', 'high']"
+                :key="type"
+                v-if="gasTrackerData"
+                :gas-title-number="gasTrackerData[`${type}Price`]"
+                :base-priority-price="gasTrackerData[`${type}BasePriority`]"
+                :total-cost="gasTrackerData[`${type}GasPriceUsd`]"
+                :title="type"
+                :color="getColor(type)"
+            />
           </div>
         </div>
       </div>
@@ -212,9 +220,7 @@ onMounted(() => {
                 :time-frames="timeFrameData.timeFrames"
                 @change-time-frame="changeTimeFrame"
             />
-            <EthLogo v-if="selectedNetwork.network === 'eth'" width="120" class="ml-auto" />
-            <BscLogo v-if="selectedNetwork.network === 'bsc'" width="120" class="ml-auto" />
-            <PolygonLogo v-if="selectedNetwork.network === 'polygon'" width="120" class="ml-auto" />
+            <component :is="networkLogoComponent" width="120" class="ml-auto"/>
           </div>
           <ChartComponent
               v-if="gasHistoricalData"

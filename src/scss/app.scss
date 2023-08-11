@@ -3,6 +3,10 @@
 @import 'mixins/sizing';
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+html, body, #app, #app>div {
+  height: 100%
+}
+
 section {
   margin-bottom: $section-margin-bottom;
 }
