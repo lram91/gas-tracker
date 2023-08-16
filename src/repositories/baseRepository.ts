@@ -1,7 +1,7 @@
-import handleFetchError from '@/helpers/errorHandler';
+import handleFetchError from '@/helpers/errorHandler.ts';
 
 export function useFetchData() {
-    const fetchData = async (url) => {
+    const fetchData = async (url: string): Promise<any | null> => {
         try {
             const response = await fetch(url);
 

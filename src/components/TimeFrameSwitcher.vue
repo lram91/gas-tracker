@@ -1,12 +1,19 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import {ref} from 'vue';
 
-const {timeFrames} = defineProps({timeFrames: Array});
+interface TimeFrame {
+  text: string;
+  value: string;
+}
+
+const {timeFrames} = defineProps({
+  timeFrames: Array as () => Array<TimeFrame>,
+});
 const emit = defineEmits();
 
 const activeButton = ref(0);
 
-const changeTimeFrame = (index, timeframe) => {
+const changeTimeFrame = (index: number, timeframe: string): void => {
   activeButton.value = index;
   emit('change-time-frame', timeframe);
 };

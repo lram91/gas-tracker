@@ -1,4 +1,4 @@
-export default async function handleFetchError(response) {
+export default async function handleFetchError(response: Response): Promise<any> {
     if (!response.ok) {
         // Handle non-successful HTTP status codes
         const errorMessage = `Error fetching data: ${response.status} - ${response.statusText}`;

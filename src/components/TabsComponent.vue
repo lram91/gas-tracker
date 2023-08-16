@@ -1,12 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 defineProps({tabs: Array});
 const emit = defineEmits();
 
+interface TabItem {
+  title: string;
+  // Add other properties as needed
+}
+
 const activeTab = ref(0);
 
-const setActiveTab = (index, tabData) => {
+const setActiveTab = (index, tabData: TabItem): void => {
   activeTab.value = index;
   emit('select-tab', tabData);
 };

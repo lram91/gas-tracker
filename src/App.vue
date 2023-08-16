@@ -1,7 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useFetchData } from '@/repositories/baseRepository';
-import chartOptionsConfig from '@/configs/chart.js';
+import { useFetchData } from '@/repositories/baseRepository.ts';
+import chartOptionsConfig from '@/configs/chart.ts';
 import GasPriceCard from "@/components/GasPriceCard.vue";
 import ChartComponent from "@/components/ChartComponent.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
@@ -10,20 +10,18 @@ import BscLogo from "@/components/svg/logo/BscLogo.vue";
 import EthLogo from "@/components/svg/logo/EthLogo.vue";
 import PolygonLogo from "@/components/svg/logo/PolygonLogo.vue";
 
-const getColorByType = (type) => {
-  switch (type) {
-    case 'low':
-      return 'text-success';
-    case 'avg':
-      return 'text-warning';
-    case 'high':
-      return 'text-danger';
-    default:
-      return 'text-success';
-  }
-};
+enum GasType {
+  Low = 'low',
+  Average = 'avg',
+  High = 'high',
+}
 
-const tabsData = ref({
+interface TabData {
+  title: string;
+  network: string;
+}
+
+const tabsData = ref<TabData[]>({
   tabs: [
     {
       title: 'Ethereum',
@@ -37,17 +35,30 @@ const tabsData = ref({
       title: 'Polygon',
       network: 'polygon',
     },
-  ]
+  ],
 });
 
-const selectedNetwork = ref(tabsData.value.tabs[0]);
+const selectedNetwork = ref<TabData>(tabsData.value.tabs[0]);
 
-const loadDataByNetwork = (networkData) => {
+const getColorByType = (type: GasType): string => {
+  switch (type) {
+    case GasType.Low:
+      return 'text-success';
+    case GasType.Average:
+      return 'text-warning';
+    case GasType.High:
+      return 'text-danger';
+    default:
+      return 'text-success';
+  }
+};
+
+const loadDataByNetwork = (networkData: TabData): void => {
   selectedNetwork.value = networkData;
   loadData(networkData.network, timeFrameData.value.timeFrame);
 };
 
-const updateChartData = () => {
+const updateChartData = (): void => {
   chartData.value.options = {
     ...chartData.value.options,
     ...{
@@ -79,40 +90,45 @@ const updateChartData = () => {
   ];
 };
 
-const timeFrameData = ref({
-  timeFrame: "1w",
+interface TimeFrameData {
+  timeFrame: string;
+  timeFrames: Array<{ value: string; text: string }>;
+}
+
+const timeFrameData = ref<TimeFrameData>({
+  timeFrame: '1w',
   timeFrames: [
-    {value: "1w", text: '7D'},
-    {value: "1m", text: '30D'},
-    {value: "3m", text: '90D'}
+    { value: '1w', text: '7D' },
+    { value: '1m', text: '30D' },
+    { value: '3m', text: '90D' },
   ],
 });
 
-const changeTimeFrame = (timeFrame) => {
+const changeTimeFrame = (timeFrame: string): void => {
   timeFrameData.value.timeFrame = timeFrame;
   loadData(selectedNetwork.value.network, timeFrame);
 };
 
 const {fetchData} = useFetchData();
 
-const gasTrackerData = ref(null);
-const gasHistoricalData = ref(null);
+const gasTrackerData = ref<Record<string, unknown> | null>(null);
+const gasHistoricalData = ref<Record<string, unknown> | null>(null);
 const chartData = ref({
   options: chartOptionsConfig,
 });
 
-const loadData = async (network, timeFrame) => {
+const loadData = async (network: string, timeFrame: string): Promise<void> => {
   await loadGasTrackerData(network);
   await loadGasHistoricalData(network, timeFrame);
 };
 
-const loadGasTrackerData = async (network) => {
+const loadGasTrackerData = async (network: string): Promise<void> => {
   const apiUrl = `/data/${network}/gas-tracker-data.json`;
 
   gasTrackerData.value = await fetchData(apiUrl);
 };
 
-const loadGasHistoricalData = async (network, timeFrame) => {
+const loadGasHistoricalData = async (network: string, timeFrame: string): Promise<void> => {
   const apiUrl = `/data/${network}/gas-historical-data-${timeFrame}.json`;
 
   gasHistoricalData.value = await fetchData(apiUrl);
@@ -121,13 +137,13 @@ const loadGasHistoricalData = async (network, timeFrame) => {
 
 const show = ref(true);
 
-const showValue = () => {
+const showValue = (): void => {
   setTimeout(() => {
     show.value = true;
   }, 500);
 };
 
-const hideValue = () => {
+const hideValue = (): void => {
   show.value = false;
 };
 

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { watch, computed, onMounted, ref } from "vue";
 import LadderGuy from "@/components/svg/LadderGuy.vue";
 
@@ -10,7 +10,7 @@ const props = defineProps({
   totalCost: String,
 });
 
-const getColorCodeForSvg = (color) => {
+const getColorCodeForSvg = (color: string): string => {
   switch (color) {
     case 'text-success':
       return '#198754';
@@ -27,13 +27,13 @@ const colorCode = computed(() => getColorCodeForSvg(props.color));
 
 const show = ref(false);
 
-const showValue = () => {
+const showValue = (): void => {
   setTimeout(() => {
     show.value = true;
   }, 500);
 };
 
-const hideValue = () => {
+const hideValue = (): void => {
   show.value = false;
 };
 
