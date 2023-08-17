@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useGasStore, GasType } from "@/stores/gas";
-import { useUIStore } from "@/stores/uiStore";
-import { useTabStore } from "@/stores/tabs";
+import { useGasTypesStore, GasType } from "@/stores/ui/gasTypes";
+import { useVisabilityStore } from "@/stores/ui/visability";
+import { useTabStore } from "@/stores/ui/tabs";
 import { useGasTrackerDataStore } from "@/stores/gasTrackerData";
 import { useGasHistoricalDataStore } from "@/stores/gasHistoricalData";
+import { useTimeFrameStore  } from "@/stores/ui/timeFrame";
 import GasPriceCard from "@/components/GasPriceCard.vue";
 import ChartComponent from "@/components/ChartComponent.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
@@ -14,37 +15,24 @@ import EthLogo from "@/components/svg/logo/EthLogo.vue";
 import PolygonLogo from "@/components/svg/logo/PolygonLogo.vue";
 
 const tabStore = useTabStore();
-const gasStore = useGasStore();
-const uiStore = useUIStore();
+const gasTypesStore = useGasTypesStore();
+const visabilityStore = useVisabilityStore();
 const gasTrackerDataStore = useGasTrackerDataStore();
 const gasHistoricalDataStore = useGasHistoricalDataStore();
+const timeFrameStore = useTimeFrameStore();
 
 const getColorByType = (type: GasType): string => {
-  return gasStore.getColorByType(type);
+  return gasTypesStore.getColorByType(type);
 };
 
 const loadDataByNetwork = (networkData: TabData): void => {
   tabStore.selectTab(networkData);
-  loadData(networkData.network, timeFrameData.value.timeFrame);
+  loadData(networkData.network, timeFrameStore.timeFrame);
 };
 
-interface TimeFrameData {
-  timeFrame: string;
-  timeFrames: Array<{ value: string; text: string }>;
-}
-
-const timeFrameData = ref<TimeFrameData>({
-  timeFrame: '1w',
-  timeFrames: [
-    { value: '1w', text: '7D' },
-    { value: '1m', text: '30D' },
-    { value: '3m', text: '90D' },
-  ],
-});
-
 const changeTimeFrame = (timeFrame: string): void => {
-  timeFrameData.value.timeFrame = timeFrame;
-  loadData(tabStore.selectedNetwork.network, timeFrame);
+  timeFrameStore.changeTimeFrame(timeFrame);
+  loadData(tabStore.selectedNetwork.network, timeFrameStore.timeFrame);
 };
 
 const loadData = async (network: string, timeFrame: string): Promise<void> => {
@@ -75,14 +63,14 @@ const selectedNetworkTitle = computed(() => {
 });
 
 watch(() => tabStore.selectedTabTitle, () => {
-  uiStore.hideValue();
-  uiStore.showValue();
+  visabilityStore.hideValue();
+  visabilityStore.showValue();
 });
 
 onMounted(() => {
   const initialTab = tabStore.tabs[0];
   tabStore.selectTab(initialTab);
-  loadData(initialTab.network, timeFrameData.value.timeFrame);
+  loadData(initialTab.network, timeFrameStore.timeFrame);
 });
 </script>
 
@@ -95,7 +83,7 @@ onMounted(() => {
       <div class="row">
         <div class="col-8 col-lg-5 mx-auto text-center text-white">
           <Transition>
-            <h1 v-if="uiStore.show">
+            <h1 v-if="visabilityStore.show">
               {{ selectedNetworkTitle }}
             </h1>
           </Transition>
@@ -136,7 +124,7 @@ onMounted(() => {
         <div class="card col-lg-5 bg-light mx-auto">
           <div class="d-flex">
             <TimeFrameSwitcher
-                :time-frames="timeFrameData.timeFrames"
+                :time-frames="timeFrameStore.timeFrames"
                 @change-time-frame="changeTimeFrame"
             />
             <component :is="networkLogoComponent" width="120" class="ml-auto"/>

@@ -1,6 +1,6 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 
-export const useUIStore = defineStore('ui', {
+export const useVisabilityStore = defineStore('visability', {
     state: () => ({
         show: true,
     }),

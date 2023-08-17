@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia';
 
-export const useGasStore = defineStore('gas', {
+export enum GasType {
+    Low = 'low',
+    Average = 'avg',
+    High = 'high',
+}
+
+export const useGasTypesStore = defineStore('gasTypes', {
     actions: {
         getColorByType(type: GasType): string {
             switch (type) {
@@ -16,9 +22,3 @@ export const useGasStore = defineStore('gas', {
         },
     },
 });
-
-export enum GasType {
-    Low = 'low',
-    Average = 'avg',
-    High = 'high',
-}
