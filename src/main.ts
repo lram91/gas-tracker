@@ -4,8 +4,8 @@ import { createPinia } from 'pinia';
 import VueApexCharts from "vue3-apexcharts";
 
 const app = createApp(App);
-const pinia = createPinia();
 
-app.use(pinia);
+app.use(createPinia());
 app.use(VueApexCharts);
+
 app.mount('#app');
