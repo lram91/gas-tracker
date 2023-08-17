@@ -8,9 +8,9 @@ export function useGasHistoricalDataRepository() {
 
     async function loadGasHistoricalData(network: BlockchainNetworkEnum, timeFrame: TimeFrameEnum): Promise<GasHistoricalData | null> {
         const apiUrl = `/data/${network}/gas-historical-data-${timeFrame}.json`;
+
         try {
-            const gasHistoricalData = await fetchData.fetchData(apiUrl);
-            return gasHistoricalData;
+            return await fetchData.fetchData(apiUrl);
         } catch (error) {
             console.error('Error loading gas historical data:', error);
             return null;

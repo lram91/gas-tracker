@@ -17,9 +17,7 @@ export const useGasHistoricalDataStore = defineStore('gasHistoricalDataStore', {
 
     actions: {
         async loadGasHistoricalData(network: BlockchainNetworkEnum, timeFrame: TimeFrameEnum): Promise<void> {
-            const repository = useGasHistoricalDataRepository();
-
-            this.gasHistoricalData = await repository.loadGasHistoricalData(network, timeFrame);
+            this.gasHistoricalData = await useGasHistoricalDataRepository().loadGasHistoricalData(network, timeFrame);
             if (this.gasHistoricalData) {
                 this.updateChartData();
             }

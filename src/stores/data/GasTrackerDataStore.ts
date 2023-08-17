@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
-import { useFetchData } from '@/repositories/baseRepository';
+import { useGasTrackerDataRepository } from '@/repositories/gasTrackerDataRepository';
 import { GasTrackerData } from '@/types/storeDataTypes';
+import { BlockchainNetworkEnum } from "@/types/enums/BlockchainNetworkEnum";
 
 export const useGasTrackerDataStore = defineStore('gasTrackerDataStore', {
     state: () => ({
@@ -8,9 +9,8 @@ export const useGasTrackerDataStore = defineStore('gasTrackerDataStore', {
     }),
 
     actions: {
-        async loadGasTrackerData(network: string): Promise<void> {
-            const apiUrl = `/data/${network}/gas-tracker-data.json`;
-            this.gasTrackerData = await useFetchData().fetchData(apiUrl);
+        async loadGasTrackerData(network: BlockchainNetworkEnum): Promise<void> {
+            this.gasTrackerData = await useGasTrackerDataRepository().loadGasTrackerData(network);
         },
     },
 });
