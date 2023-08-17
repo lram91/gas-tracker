@@ -7,7 +7,7 @@ export function useGasHistoricalDataRepository() {
     const fetchData = useFetchData();
 
     async function loadGasHistoricalData(network: BlockchainNetworkEnum, timeFrame: TimeFrameEnum): Promise<GasHistoricalData | null> {
-        const apiUrl = `/data/${network}/gas-historical-data-${timeFrame}.json`;
+        const apiUrl = `${network}/gas-historical-data-${timeFrame}.json`;
 
         try {
             return await fetchData.fetchData(apiUrl);

@@ -3,7 +3,7 @@ import { BlockchainNetworkEnum } from "@/types/enums/BlockchainNetworkEnum";
 import { GasTrackerData } from "@/types/storeDataTypes";
 export function useGasTrackerDataRepository() {
     const loadGasTrackerData = async (network: BlockchainNetworkEnum): Promise<GasTrackerData  | null> => {
-        const apiUrl = `/data/${network}/gas-tracker-data.json`;
+        const apiUrl = `${network}/gas-tracker-data.json`;
 
         return await useFetchData().fetchData(apiUrl);
     };
