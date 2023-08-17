@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useFetchData } from '@/repositories/baseRepository';
+import { useGasHistoricalDataRepository } from '@/repositories/gasHistoricalDataRepository';
 import { GasHistoricalData } from '@/types/storeDataTypes';
 import { ChartData } from "@/types/commonTypes";
 import { BlockchainNetworkEnum } from "@/types/enums/BlockchainNetworkEnum";
@@ -17,9 +17,12 @@ export const useGasHistoricalDataStore = defineStore('gasHistoricalDataStore', {
 
     actions: {
         async loadGasHistoricalData(network: BlockchainNetworkEnum, timeFrame: TimeFrameEnum): Promise<void> {
-            const apiUrl = `/data/${network}/gas-historical-data-${timeFrame}.json`;
-            this.gasHistoricalData = await useFetchData().fetchData(apiUrl);
-            this.updateChartData();
+            const repository = useGasHistoricalDataRepository();
+
+            this.gasHistoricalData = await repository.loadGasHistoricalData(network, timeFrame);
+            if (this.gasHistoricalData) {
+                this.updateChartData();
+            }
         },
 
         updateChartData(): void {
