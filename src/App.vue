@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
-//Stores
+// Stores
 import { useGasTypesStore } from "@/stores/ui/GasTypesStore";
 import { useVisabilityStore } from "@/stores/ui/VisabilityStore";
 import { useTabStore } from "@/stores/ui/TabsStore";
 import { useGasTrackerDataStore } from "@/stores/data/GasTrackerDataStore";
 import { useGasHistoricalDataStore } from "@/stores/data/GasHistoricalDataStore";
 import { useTimeFrameStore  } from "@/stores/ui/TimeFrameStore";
-//Enums
+// Enums
 import { BlockchainNetworkEnum } from "@/types/enums/BlockchainNetworkEnum"
 import { GasTypeEnum } from "@/types/enums/GasTypeEnum";
-//Components
+// Components
 import GasPriceCard from "@/components/GasPriceCard.vue";
 import ChartComponent from "@/components/ChartComponent.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
@@ -40,9 +40,9 @@ const changeTimeFrame = (timeFrame: string): void => {
   loadData(tabStore.selectedNetwork.network, timeFrameStore.timeFrame);
 };
 
-const loadData = async (network: string, timeFrame: string): Promise<void> => {
-  await gasTrackerDataStore.loadGasTrackerData(network);
-  await gasHistoricalDataStore.loadGasHistoricalData(network, timeFrame);
+const loadData = (network: string, timeFrame: string): void => {
+  gasTrackerDataStore.loadGasTrackerData(network);
+  gasHistoricalDataStore.loadGasHistoricalData(network, timeFrame);
 };
 
 const networkLogoComponent = computed(() => {
@@ -137,8 +137,8 @@ onMounted(() => {
           <ChartComponent
               v-if="gasHistoricalDataStore.gasHistoricalData"
               chart-type="line"
-              :chart-options=gasHistoricalDataStore.chartData.options
-              :chart-series=gasHistoricalDataStore.chartData.series
+              :chart-options="gasHistoricalDataStore.chartData.options"
+              :chart-series="gasHistoricalDataStore.chartData.series"
           />
         </div>
       </div>
