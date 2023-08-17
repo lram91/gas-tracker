@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useGasTypesStore, GasType } from "@/stores/ui/gasTypes";
-import { useVisabilityStore } from "@/stores/ui/visability";
-import { useTabStore } from "@/stores/ui/tabs";
-import { useGasTrackerDataStore } from "@/stores/gasTrackerData";
-import { useGasHistoricalDataStore } from "@/stores/gasHistoricalData";
-import { useTimeFrameStore  } from "@/stores/ui/timeFrame";
+import { useGasTypesStore, GasType } from "@/stores/ui/GasTypesStore";
+import { useVisabilityStore } from "@/stores/ui/VisabilityStore";
+import { useTabStore } from "@/stores/ui/TabsStore";
+import { useGasTrackerDataStore } from "@/stores/data/GasTrackerDataStore";
+import { useGasHistoricalDataStore } from "@/stores/data/GasHistoricalDataStore";
+import { useTimeFrameStore  } from "@/stores/ui/TimeFrameStore";
+import { NetworkEnum } from "@/enums/NetworkEnum";
 import GasPriceCard from "@/components/GasPriceCard.vue";
 import ChartComponent from "@/components/ChartComponent.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
@@ -45,11 +46,11 @@ const networkLogoComponent = computed(() => {
     const network = tabStore.selectedNetwork.network;
 
     switch (network) {
-      case 'eth':
+      case NetworkEnum.Eth:
         return EthLogo;
-      case 'bsc':
+      case NetworkEnum.Bsc:
         return BscLogo;
-      case 'polygon':
+      case NetworkEnum.Polygon:
         return PolygonLogo;
       default:
         return null;
