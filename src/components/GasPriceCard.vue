@@ -5,11 +5,26 @@ import { ColorOptionsEnum } from "@/types/enums/ColorOptionsEnum";
 import LadderGuy from "@/components/svg/LadderGuy.vue";
 
 const props = defineProps({
-  title: String,
-  color: String,
-  gasTitleNumber: String,
-  basePriorityPrice: String,
-  totalCost: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    required: true,
+  },
+  gasTitleNumber: {
+    type: String,
+    required: true,
+  },
+  basePriorityPrice: {
+    type: String,
+    required: true,
+  },
+  totalCost: {
+    type: String,
+    required: true,
+  },
 });
 
 const visabilityStore = useVisabilityStore();
@@ -44,11 +59,11 @@ onMounted(() => {
 <template>
   <div class="card bg-light p-2 mb-3 mx-auto">
     <h4 class="text-capitalize fw-bold text-center text-dark">
-      {{ title }}
+      {{ props.title }}
     </h4>
     <Transition name="bounce">
       <p v-if="visabilityStore.show" :class="color" class="h2 text-center">
-        {{ gasTitleNumber }} gwei
+        {{ props.gasTitleNumber }} gwei
       </p>
     </Transition>
     <div class="mx-auto">
@@ -56,10 +71,10 @@ onMounted(() => {
     </div>
     <div>
       <small class="text-dark">
-        {{ basePriorityPrice }}
+        {{ props.basePriorityPrice }}
       </small>
       <p class="h6 text-dark">
-        {{ totalCost }}
+        {{ props.totalCost }}
       </p>
     </div>
   </div>

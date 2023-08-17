@@ -3,7 +3,10 @@ import { ref } from 'vue';
 import { TabData } from "@/types/commonTypes";
 
 const { tabs } = defineProps({
-  tabs: Array as () => TabData[],
+  tabs: {
+    type: Array as () => TabData[],
+    required: true,
+  }
 });
 
 const emit = defineEmits();

@@ -3,7 +3,10 @@ import { ref } from 'vue';
 import { TimeFrameEnum } from "@/types/enums/TimeFrameEnum";
 
 const { timeFrames } = defineProps({
-  timeFrames: Array<{ value: TimeFrameEnum; text: string }>,
+  timeFrames: {
+    type: Array<{ value: TimeFrameEnum; text: string }>,
+    required: true,
+  }
 });
 
 const emit = defineEmits();
