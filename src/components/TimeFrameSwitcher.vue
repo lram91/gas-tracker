@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import { ref } from 'vue';
+import { TimeFrameEnum } from "@/types/enums/TimeFrameEnum";
 
-interface TimeFrame {
-  text: string;
-  value: string;
-}
-
-const {timeFrames} = defineProps({
-  timeFrames: Array as () => Array<TimeFrame>,
+const { timeFrames } = defineProps({
+  timeFrames: Array<{ value: TimeFrameEnum; text: string }>,
 });
+
 const emit = defineEmits();
 
-const activeButton = ref(0);
+const activeButton = ref<number>(0);
 
-const changeTimeFrame = (index: number, timeframe: string): void => {
+const changeTimeFrame = (index: number, timeframe: TimeFrameEnum): void => {
   activeButton.value = index;
   emit('change-time-frame', timeframe);
 };

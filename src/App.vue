@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 //Stores
 import { useGasTypesStore } from "@/stores/ui/GasTypesStore";
 import { useVisabilityStore } from "@/stores/ui/VisabilityStore";

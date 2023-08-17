@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, computed, onMounted, ref } from "vue";
+import { watch, computed, onMounted } from "vue";
 import { useVisabilityStore } from "@/stores/ui/VisabilityStore";
 import { ColorOptionsEnum } from "@/types/enums/ColorOptionsEnum";
 import LadderGuy from "@/components/svg/LadderGuy.vue";
