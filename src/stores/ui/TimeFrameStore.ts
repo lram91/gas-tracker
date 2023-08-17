@@ -1,21 +1,18 @@
 import { defineStore } from 'pinia';
-
-interface TimeFrameData {
-    timeFrame: string;
-    timeFrames: Array<{ value: string; text: string }>;
-}
+import { TimeFrameData } from '@/types/commonTypes';
+import { TimeFrameEnum } from '@/types/enums/TimeFrameEnum';
 
 export const useTimeFrameStore = defineStore('timeFrame', {
     state: (): TimeFrameData => ({
-        timeFrame: '1w',
+        timeFrame: TimeFrameEnum.OneWeek,
         timeFrames: [
-            { value: '1w', text: '7D' },
-            { value: '1m', text: '30D' },
-            { value: '3m', text: '90D' },
+            { value: TimeFrameEnum.OneWeek, text: '7D' },
+            { value: TimeFrameEnum.OneMonth, text: '30D' },
+            { value: TimeFrameEnum.ThreeMonths, text: '90D' },
         ],
     }),
     actions: {
-        changeTimeFrame(timeFrame: string): void {
+        changeTimeFrame(timeFrame: TimeFrameEnum): void {
             this.timeFrame = timeFrame;
         },
     },

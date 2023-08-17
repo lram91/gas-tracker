@@ -1,9 +1,5 @@
 import { defineStore } from 'pinia';
-
-interface TabData {
-    title: string;
-    network: string;
-}
+import { TabData } from '@/types/commonTypes';
 
 export const useTabStore = defineStore('tab', {
     state: () => ({
@@ -24,12 +20,12 @@ export const useTabStore = defineStore('tab', {
         selectedNetwork: null as TabData | null,
     }),
     actions: {
-        selectTab(tab: TabData) {
+        selectTab(tab: TabData): void {
             this.selectedNetwork = tab;
         },
     },
     getters: {
-        selectedTabTitle() {
+        selectedTabTitle(): string {
             return this.selectedNetwork?.title || '';
         },
     },

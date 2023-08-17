@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
-import { useFetchData } from '@/repositories/baseRepository.ts';
+import { useFetchData } from '@/repositories/baseRepository';
+import { GasTrackerData } from '@/types/storeDataTypes';
 
 export const useGasTrackerDataStore = defineStore('gasTrackerDataStore', {
     state: () => ({
-        gasTrackerData: null as Record<string, unknown> | null,
+        gasTrackerData: null as GasTrackerData | null,
     }),
 
     actions: {

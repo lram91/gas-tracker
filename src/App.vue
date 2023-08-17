@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useGasTypesStore, GasType } from "@/stores/ui/GasTypesStore";
+//Stores
+import { useGasTypesStore } from "@/stores/ui/GasTypesStore";
 import { useVisabilityStore } from "@/stores/ui/VisabilityStore";
 import { useTabStore } from "@/stores/ui/TabsStore";
 import { useGasTrackerDataStore } from "@/stores/data/GasTrackerDataStore";
 import { useGasHistoricalDataStore } from "@/stores/data/GasHistoricalDataStore";
 import { useTimeFrameStore  } from "@/stores/ui/TimeFrameStore";
-import { NetworkEnum } from "@/enums/NetworkEnum";
+//Enums
+import { BlockchainNetworkEnum } from "@/types/enums/BlockchainNetworkEnum"
+import { GasTypeEnum } from "@/types/enums/GasTypeEnum";
+//Components
 import GasPriceCard from "@/components/GasPriceCard.vue";
 import ChartComponent from "@/components/ChartComponent.vue";
 import TabsComponent from "@/components/TabsComponent.vue";
@@ -22,7 +26,7 @@ const gasTrackerDataStore = useGasTrackerDataStore();
 const gasHistoricalDataStore = useGasHistoricalDataStore();
 const timeFrameStore = useTimeFrameStore();
 
-const getColorByType = (type: GasType): string => {
+const getColorByType = (type: GasTypeEnum): string => {
   return gasTypesStore.getColorByType(type);
 };
 
@@ -46,11 +50,11 @@ const networkLogoComponent = computed(() => {
     const network = tabStore.selectedNetwork.network;
 
     switch (network) {
-      case NetworkEnum.Eth:
+      case BlockchainNetworkEnum.Eth:
         return EthLogo;
-      case NetworkEnum.Bsc:
+      case BlockchainNetworkEnum.Bsc:
         return BscLogo;
-      case NetworkEnum.Polygon:
+      case BlockchainNetworkEnum.Polygon:
         return PolygonLogo;
       default:
         return null;
@@ -60,7 +64,7 @@ const networkLogoComponent = computed(() => {
 });
 
 const selectedNetworkTitle = computed(() => {
-  return tabStore.selectedNetwork ? tabStore.selectedNetwork.title : '';
+  return tabStore.selectedNetwork?.title || '';
 });
 
 watch(() => tabStore.selectedTabTitle, () => {
@@ -104,7 +108,7 @@ onMounted(() => {
         <div class="col-xl-8 mx-auto">
           <div class="row">
             <GasPriceCard
-                v-for="type in [GasType.Low, GasType.Average, GasType.High]"
+                v-for="type in [GasTypeEnum.Low, GasTypeEnum.Average, GasTypeEnum.High]"
                 :key="type"
                 v-if="gasTrackerDataStore.gasTrackerData"
                 :gas-title-number="gasTrackerDataStore.gasTrackerData[`${type}Price`]"

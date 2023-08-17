@@ -1,23 +1,18 @@
 import { defineStore } from 'pinia';
-
-export enum GasType {
-    Low = 'low',
-    Average = 'avg',
-    High = 'high',
-}
-
+import { GasTypeEnum } from "@/types/enums/GasTypeEnum";
+import { ColorOptionsEnum } from "@/types/enums/ColorOptionsEnum";
 export const useGasTypesStore = defineStore('gasTypes', {
     actions: {
-        getColorByType(type: GasType): string {
+        getColorByType(type: GasTypeEnum): string {
             switch (type) {
-                case GasType.Low:
-                    return 'text-success';
-                case GasType.Average:
-                    return 'text-warning';
-                case GasType.High:
-                    return 'text-danger';
+                case GasTypeEnum.Low:
+                    return ColorOptionsEnum.Success;
+                case GasTypeEnum.Average:
+                    return ColorOptionsEnum.Warning;
+                case GasTypeEnum.High:
+                    return ColorOptionsEnum.Danger;
                 default:
-                    return 'text-success';
+                    return ColorOptionsEnum.Success;
             }
         },
     },

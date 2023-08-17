@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { watch, computed, onMounted, ref } from "vue";
+import { useVisabilityStore } from "@/stores/ui/VisabilityStore";
+import { ColorOptionsEnum } from "@/types/enums/ColorOptionsEnum";
 import LadderGuy from "@/components/svg/LadderGuy.vue";
 
 const props = defineProps({
@@ -10,13 +12,15 @@ const props = defineProps({
   totalCost: String,
 });
 
-const getColorCodeForSvg = (color: string): string => {
+const visabilityStore = useVisabilityStore();
+
+const getColorCodeForSvg = (color: ColorOptionsEnum): string => {
   switch (color) {
-    case 'text-success':
+    case ColorOptionsEnum.Success:
       return '#198754';
-    case 'text-warning':
+    case ColorOptionsEnum.Warning:
       return '#ffc107';
-    case 'text-danger':
+    case ColorOptionsEnum.Danger:
       return '#dc3545';
     default:
       return '#198754';
@@ -25,25 +29,15 @@ const getColorCodeForSvg = (color: string): string => {
 
 const colorCode = computed(() => getColorCodeForSvg(props.color));
 
-const show = ref(false);
-
-const showValue = (): void => {
-  setTimeout(() => {
-    show.value = true;
-  }, 500);
-};
-
-const hideValue = (): void => {
-  show.value = false;
-};
-
 watch(() => props.gasTitleNumber, () => {
-  hideValue();
-  showValue();
+  visabilityStore.hideValue();
+  setTimeout(() => {
+    visabilityStore.showValue();
+  }, 500);
 });
 
 onMounted(() => {
-  showValue();
+  visabilityStore.showValue();
 });
 </script>
 
@@ -53,7 +47,7 @@ onMounted(() => {
       {{ title }}
     </h4>
     <Transition name="bounce">
-      <p v-if="show" :class="color" class="h2 text-center">
+      <p v-if="visabilityStore.show" :class="color" class="h2 text-center">
         {{ gasTitleNumber }} gwei
       </p>
     </Transition>

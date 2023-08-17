@@ -1,4 +1,4 @@
-export enum NetworkEnum {
+export enum BlockchainNetworkEnum {
     Eth = 'eth',
     Bsc = 'bsc',
     Polygon = 'polygon',
